@@ -10,19 +10,27 @@ class Message extends Model
     use HasFactory;
 
     public $allowedFilters = [
-        'name',
-        'email',
+        'user.name',
+        'user.email',
     ];
 
     public $fillable = [
-        'name',
-        'email',
+        'user_id',
         'body',
     ];
 
     public $validationFields = [
-        'name' => 'required|max:255',
-        'email' => 'required|max:255|email',
+        'user.name' => 'required|max:255',
+        'user.email' => 'required|max:255|email',
         'body' => 'required',
     ];
+
+    public $foreign = [
+        'user' => 'App\Models\User',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

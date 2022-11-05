@@ -24,29 +24,32 @@ class MessageTest extends TestCase
         $this->post(
             '/api/messages',
             [
-                'name' => $name,
-                'email' => $email,
+                "user" => [
+                    'name' => $name,
+                    'email' => $email,
+                ],
                 'body' => $body,
             ]
         )
         ->assertStatus(201)
-        ->assertJson([
-            'name' => $name,
-            'email' => $email,
-            'body' => $body,
+        ->assertJsonStructure([
+            "user_id",
+            'body',
         ]);
     }
 
     public function testGetMessages()
     {
         $this->get(
-            '/api/messages',
+            '/api/messages?with=user',
         )
         ->assertStatus(200)
         ->assertJsonStructure([
-                '*' => [
-                'name',
-                'email',
+            '*' => [
+                "user" => [
+                    'name',
+                    'email',
+                ],
                 'body',
             ],
         ]);
@@ -62,40 +65,39 @@ class MessageTest extends TestCase
         $this->post(
             '/api/messages',
             [
-                'name' => $name,
-                'email' => $email,
+                'user' => [
+                    'name' => $name,
+                    'email' => $email,
+                ],
                 'body' => $body,
             ]
         )
         ->assertStatus(201)
-        ->assertJson([
-            'name' => $name,
-            'email' => $email,
-            'body' => $body,
+        ->assertJsonStructure([
+            "user_id",
+            'body',
         ]);
 
         $this->get(
-            '/api/messages?name=' . $name,
+            '/api/messages?user.name=' . $name,
         )
         ->assertStatus(200)
-        ->assertJson([
-                [
-                'name' => $name,
-                'email' => $email,
-                'body' => $body,
-            ]
+        ->assertJsonStructure([
+            '*' => [
+                'body',
+                'user',
+            ],
         ]);
 
         $this->get(
-            '/api/messages?email=' . $email,
+            '/api/messages?user.email=' . $email,
         )
         ->assertStatus(200)
-        ->assertJson([
-                [
-                'name' => $name,
-                'email' => $email,
-                'body' => $body,
-            ]
+        ->assertJsonStructure([
+            '*' => [
+                'body',
+                'user',
+            ],
         ]);
     }
 }

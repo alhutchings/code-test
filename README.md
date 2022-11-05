@@ -10,17 +10,20 @@ At a minimum we are looking to take a message (name, email address and message) 
 
 ## Proposed Solution
 
-To achieve this I will create a messages table including the following fields:
+To achieve this, I will create a "messages table" including the following fields:
 
-- name
-- email
+- user_id
 - body
 
-I will also create a model and resource controller and add an endpoint called "/api/messages".
+The "user_id" field is a foreign key attached to the user table, to avoid duplicating name and email fields.
 
-I will also create another controller which will contain the main generic code, this would allow for fast expansion moving forward.
+I will create a model and resource controller and add an endpoint called "/api/messages".
+
+I will also create another controller which will contain the main generic code, this would allow for esdy, quick expansion moving forward.
 
 The controller will also contain validation, although the specifics will be stored in the model to keep it generic.
+
+I will add "with" parameter functionality to add the user relationship. 
 
 The controller will contain a function to store a message and bring them all back. I will also add the option to filter them.
 
