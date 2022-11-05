@@ -38,8 +38,11 @@ class MainController extends Controller
      */
     public function store(Request $request)
     {
+
+        $data = $request->all();
+
         $validator = Validator::make(
-            $request->all(), 
+            $data,
             $this->model->validationFields
         );
  
@@ -52,15 +55,7 @@ class MainController extends Controller
             );
         }
 
-        $record = $this->model;
-
-        foreach ($record->fillable as $field) {
-            if (isset($request->{$field})) {
-                $record->{$field} = $request->{$field};
-            }
-        }
-
-        $record->save();
+        $record = $this->model->create($data);
 
         return $record;
     }

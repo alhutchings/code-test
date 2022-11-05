@@ -37,7 +37,7 @@ class MessageTest extends TestCase
         ]);
     }
 
-    public function testGetContacts()
+    public function testGetMessages()
     {
         $this->get(
             '/api/messages',
@@ -52,7 +52,7 @@ class MessageTest extends TestCase
         ]);
     }
 
-    public function testFilterContacts()
+    public function testFilterMessages()
     {
 
         $name = $this->faker->name;
